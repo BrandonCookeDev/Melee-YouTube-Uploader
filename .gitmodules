@@ -1,0 +1,3 @@
+[submodule "RCSThumbnailGen"]
+	path = RCSThumbnailGen
+	url = https://github.com/BrandonCookeDev/RCSThumbnailGen.git
