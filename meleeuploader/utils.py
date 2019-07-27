@@ -2,11 +2,16 @@
 
 import os
 import sys
+import logging
 from datetime import datetime
 
 from . import consts
 from . import youtube as yt
 
+def setupLogger(level: str):
+    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+    logging.basicConfig(format=FORMAT)
+    logging.Logger.setLevel(level if level is None else logging.INFO)
 
 def pre_upload(opts):
     if opts.mtype == "Grand Finals" and any(x.lower() in opts.msuffix.lower() for x in ("Set 2", "Reset")):
