@@ -2,12 +2,13 @@
 
 import os
 import sys
-import logging as log
+import logging
+#import traceback
 
 from . import forms
 from . import consts
 from . import youtube as yt
-from .utils import setupLogger
+from .utils import setup_logger, get_logger
 
 import pyforms_lite
 
@@ -19,8 +20,8 @@ def main():
     try:
         print('starting')
         log_level = os.getenv('LOG_LEVEL')
-        setupLogger(log_level)
-        log.info('Logging setup complete! Log Level is {}'.format(log.Logger.getEffectiveLevel()))
+        setup_logger(log_level)
+        log = get_logger()
 
         log.debug('Setting up melee uploader with dimensions: ({}, {})'.format(form_width, form_height))
         if os.path.isfile(consts.youtube_file) or not len(os.listdir(consts.smash_folder)):
@@ -30,6 +31,7 @@ def main():
             consts.youtube = yt.get_youtube_service()
     except Exception as e:
         print(e)
+        #traceback.print_last()
         print("There was an issue with getting Google Credentials")
         sys.exit(1)
     try:

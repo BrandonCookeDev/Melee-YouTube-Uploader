@@ -8,10 +8,24 @@ from datetime import datetime
 from . import consts
 from . import youtube as yt
 
-def setupLogger(level: str):
-    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
-    logging.basicConfig(format=FORMAT)
-    logging.Logger.setLevel(level if level is None else logging.INFO)
+
+def setup_logger(level='INFO'):
+    level if level is not None else 'INFO'
+    log_format = logging.Formatter('%(levelname)s: %(asctime)-15s :: [%(funcName)s] :: %(message)s')
+
+    log = logging.getLogger('default')
+    log.setLevel(level)
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(log_format)
+    log.addHandler(handler)
+
+    log.info('Logging setup complete! Log Level is {}'.format(level))
+
+
+def get_logger():
+    return logging.getLogger('default')
+
 
 def pre_upload(opts):
     if opts.mtype == "Grand Finals" and any(x.lower() in opts.msuffix.lower() for x in ("Set 2", "Reset")):
